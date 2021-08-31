@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<robot name="mirrax" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find urax_description)/urdfs/common.xacro"/>
+	<xacro:include filename="$(find urax_description)/urdfs/materials.xacro"/>
+	<!-- Base -->
+	<xacro:include filename="$(find urax_description)/urdfs/base/base_float.xacro"/>
+	
+	<!-- Legs -->
+	<xacro:include filename="$(find urax_description)/urdfs/leg/leg.xacro"/>
+
+	<!-- Arms -->
+	<xacro:include filename="$(find urax_description)/urdfs/arm/arm.xacro"/>
+
+	<!-- Sensors -->
+	<xacro:include filename="$(find urax_description)/urdfs/sensors/sensors.xacro"/>
+
+	<xacro:include filename="$(find urax_description)/robots/gazebo.xacro"/>
+
+  <!-- robot body -->
+  <xacro:RobotBase name="base_link">
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+	</xacro:RobotBase>
+
+  <!-- robot legs -->
+  <xacro:RobotLeg
+		name="back"
+		joint_name="joint_5"
+		parent="base_link"
+		joint_ulim="${back_pivot_joint_ulim}"
+		joint_llim="${back_pivot_joint_llim}"
+		wheel_num_l="1"
+		wheel_num_r="2">
+		<origin xyz="${-base_x/2} ${base_y/2} ${base_z_offset}" rpy="0 0 0"/>
+	</xacro:RobotLeg>
+
+	<xacro:RobotLeg
+		name="front"
+		joint_name="joint_6"
+		parent="base_link"
+		joint_ulim="${front_pivot_joint_ulim}"
+		joint_llim="${front_pivot_joint_llim}"
+		wheel_num_l="4"
+		wheel_num_r="3">
+		<origin xyz="${base_x/2} ${base_y/2} ${base_z_offset}" rpy="0 0 0"/>
+	</xacro:RobotLeg>
+
+  <!-- arm components -->
+	<xacro:RobotArm
+		name="arm"
+		parent="base_link">
+		<origin xyz="0.03875 0 0.019" rpy="0 0 0"/>
+	</xacro:RobotArm> 
+
+	<!-- Sensors -->
+	<xacro:IMU
+		parent="base_link"
+		imu_name="imu"
+		imu_topic="/imu"
+		update_rate="100">
+		<origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+	</xacro:IMU>  
+
+	<!-- <xacro:RgbCamera
+		parent="laser"
+		name="rgb"
+		topic="mirrax/rgb_cam"
+		update_rate="30">
+		<origin xyz="0.0 0.0 0.03" rpy="0 0 0"/>
+	</xacro:RgbCamera> -->
+
+  <!-- <xacro:DepthCamera 
+		parent="laser"
+		name="depth"
+		topic="mirrax/depth_cam"
+		update_rate="30">
+		<origin xyz="0.0 0.0 0.03" rpy="0 0 0"/>
+	</xacro:DepthCamera> -->
+	
+	<xacro:LIDAR 
+		parent="base_link"
+		lidar_name="urg_lidar"
+		lidar_topic="scan"
+		update_rate="20">
+		<origin xyz="0 0 0.157" rpy="0 0 0"/>
+	</xacro:LIDAR>  
+
+</robot>

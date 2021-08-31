@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="mirrax">
+  <!-- #############  Laser Sensor  ############# -->
+  <!-- Noise parameters based on published spec for Hokuyo laser achieving "+-30mm" accuracy at range < 10m. -->
+  <!-- A mean of 0.0m and stddev of 0.01m will put 99.7% of samples within 0.03m of the true reading. -->
+  <xacro:macro name="LIDAR" params="parent lidar_name lidar_topic update_rate *origin">
+    <!-- Joint -->
+    <joint name="${lidar_name}_joint" type="fixed">
+      <xacro:insert_block name="origin"/>
+      <parent link="${parent}" />
+      <child link="${lidar_name}"/>
+    </joint>
+    <!-- Link -->
+    <link name="${lidar_name}">
+      <inertial>
+        <origin xyz="-0.00020  0.00010  0.00110"/>
+        <mass value="0.010"/>
+        <inertia ixx="0.0" iyy="0.0" izz="0.0" ixy="0.0" ixz="0.0" iyz="0.0"/>
+      </inertial>
+      <visual>
+        <origin xyz="0.0 0 0.0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder length="0.01" radius="0.01"/>
+        </geometry>
+        <material name="black">
+          <color rgba="0 0 0 0.9"/>
+        </material>
+      </visual>
+    </link>
+    <gazebo reference="${lidar_name}">
+      <material>Gazebo/Blue</material>
+      <sensor type="ray" name="head_hokuyo_sensor">
+        <pose>0 0 0 0 0 0</pose>
+        <visualize>false</visualize>
+        <update_rate>${update_rate}</update_rate>
+        <ray>
+          <scan>
+            <horizontal>
+              <samples>683</samples>
+              <!-- Scan_range/angular_resolution -->
+              <resolution>1</resolution>
+              <min_angle>-2.1</min_angle>
+              <max_angle>2.1</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>0.06</min>
+            <max>4.0</max>
+            <resolution>0.001</resolution>
+          </range>
+          <noise>
+            <type>none</type>
+            <mean>0.0</mean>
+            <stddev>0.0</stddev>
+          </noise>
+        </ray>
+        <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
+          <!-- <robotNamespace></robotNamespace> -->
+          <alwaysOn>true</alwaysOn>
+          <update_rate>${update_rate}</update_rate>
+          <topicName>${lidar_topic}</topicName>
+          <frameName>${lidar_name}</frameName>
+          <bodyName>${lidar_name}</bodyName>
+        </plugin>
+      </sensor>
+    </gazebo>
+  </xacro:macro>
+</robot>

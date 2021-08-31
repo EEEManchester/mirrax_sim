@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="mirrax">
+  <!-- Things that are needed only for Gazebo (not the physical robot). These include sensor and controller plugin specifications -->
+  <!-- <xacro:include filename="$(find mirrax_description)/urdfs/arm/linear_actuator.transmission.xacro"/>
+	<xacro:include filename="$(find mirrax_description)/urdfs/arm/linear_actuator.gazebo.xacro"/> -->
+  <!-- ================================== Linear Actuator ================================== -->
+  <xacro:macro name="LinearActuator" params="name parent">
+    <!-- ========================= Joints ========================= -->
+    <!-- Pivot Joint -->
+    <joint name="${name}_pivot" type="revolute">
+      <axis xyz="0 1 0"/>
+      <limit effort="1000.0" lower="0" upper="1" velocity="0.5"/>
+      <parent link="base_link"/>
+      <child link="${name}_1"/>
+      <origin xyz="0.00384 0 -0.03888" rpy="0 0.347 0"/>
+    </joint>
+    <!-- Linear Joint -->
+    <joint name="${name}_linear" type="prismatic">
+      <axis xyz="-1 0 0"/>
+      <limit effort="1000.0" lower="0" upper="0.1" velocity="0.5"/>
+      <parent link="${name}_1"/>
+      <child link="${name}_2"/>
+      <origin xyz="-0.063 0 0" rpy="0 0 0"/>
+    </joint>
+    <!-- ========================= Links ========================= -->
+    <!-- Linear Link 1 -->
+    <link name="${name}_1">
+      <visual>
+        <geometry>
+          <mesh filename="package://mirrax_description/meshes/caseRVIZ.STL"/>
+        </geometry>
+        <material name="grey"/>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://mirrax_description/meshes/arm1RVIZ.STL"/>
+        </geometry>
+        <material name="colli"/>
+      </collision>
+      <inertial>
+        <origin xyz="${arm_1_com_x} ${arm_1_com_y} ${arm_1_com_z}"/>
+        <mass value="${arm_1_m}"/>
+        <inertia ixx="${arm_1_xx}" ixy="${arm_1_xy}" ixz="${arm_1_xz}" iyy="${arm_1_yy}" iyz="${arm_1_yz}" izz="${arm_1_zz}"/>
+      </inertial>
+    </link>
+    <!-- Linear Link 2 -->
+    <link name="${name}_2">
+      <visual>
+        <geometry>
+          <mesh filename="package://mirrax_description/meshes/shaftRVIZ.STL"/>
+        </geometry>
+        <material name="grey"/>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://mirrax_description/meshes/arm2RVIZ.STL"/>
+        </geometry>
+        <material name="colli"/>
+      </collision>
+      <inertial>
+        <origin xyz="${arm_2_com_x} ${arm_2_com_y} ${arm_2_com_z}"/>
+        <mass value="${arm_2_m}"/>
+        <inertia ixx="${arm_2_xx}" ixy="${arm_2_xy}" ixz="${arm_2_xz}" iyy="${arm_2_yy}" iyz="${arm_2_yz}" izz="${arm_2_zz}"/>
+      </inertial>
+    </link>
+    <!-- ========================= Extensions ========================= -->
+    <!-- <xacro:arm_gazebo name="${name}"/>
+		<xacro:arm_transmission name="${name}"/>  -->
+  </xacro:macro>
+</robot>

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="mirrax">
+
+	<xacro:macro name="base_gazebo" params="name">
+		<gazebo reference="${name}">
+			<kp>20000000.0</kp>
+			<kd>1.0</kd>
+			<mu1>0</mu1>
+			<mu2>0</mu2>
+			<!-- <material>Gazebo/Grey</material> -->
+			<visual>
+				<material>  
+					<ambient>0.6 0.6 0.6 1.0</ambient>
+					<diffuse>.6 .6 .6  1.0</diffuse>
+					<specular>0.1 0.1 0.1 1.0</specular>
+					<emissive>0.0 0.0 0.0 0.0</emissive>
+				</material>  
+			</visual>
+		</gazebo>
+	</xacro:macro>
+
+</robot>

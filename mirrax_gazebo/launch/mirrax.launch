@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<launch>
+  
+  <!-- Load robot description -->
+  <include file="$(find mirrax_description)/launch/mirrax_description.launch" />
+
+  <!-- Spawn the robot -->
+  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model"
+        args="-urdf -model mirrax -param robot_description -x 0 -y 0 -z 0.5" />
+
+  <!-- Joint controllers -->
+  <rosparam file="$(find mirrax_gazebo)/config/joint_controller.yaml" command="load"/>
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" clear_params="true"
+        output="screen" ns="/mirrax" args="joint_state_controller
+          joint_5 joint_6 joint_7 joint_8 joint_9"/>
+
+</launch>

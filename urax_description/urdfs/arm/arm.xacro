@@ -1,0 +1,140 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="mirrax">
+
+	<!-- Things that are needed only for Gazebo (not the physical robot). These include sensor and controller plugin specifications -->
+	<xacro:include filename="$(find urax_description)/urdfs/arm/arm.transmission.xacro"/>
+	<xacro:include filename="$(find urax_description)/urdfs/arm/arm.gazebo.xacro"/>
+
+	<!-- ================================== Arm ================================== -->
+	
+	<xacro:macro name="RobotArm" params="name parent *origin">
+		<!-- ========================= Joints ========================= -->
+		<!-- Arm Pivot Joint -->
+		<joint name="joint_9" type="fixed">
+			<axis xyz="0 0 1"/>
+			<!-- <dynamics damping="${XM430_damping}" friction="0" />
+			<limit effort="${XM430_effort}" velocity="${XM430_velocity}" lower="0" upper="1.57"/> -->
+			<parent link="${parent}"/>
+			<child link="${name}_1"/>
+			<xacro:insert_block name="origin"/>
+		</joint>  
+		<!-- Arm Yaw Joint -->
+		<joint name="joint_7" type="revolute">
+			<axis xyz="0 0 1"/>
+			<dynamics damping="${XM430_damping}" friction="0" />
+			<limit effort="${XM430_effort}" velocity="${XM430_velocity}" lower="-1.6" upper="1.6"/>
+			<parent link="${name}_1"/>
+			<child link="${name}_2"/>
+			<origin xyz="0 -0.01575 0.1045" rpy="0 0 0"/>
+		</joint> 
+		<!-- Arm Pitch Joint -->
+		<joint name="joint_8" type="revolute">
+			<axis xyz="0 -1 0"/>
+			<dynamics damping="${XM430_damping}" friction="0" />
+			<limit effort="${XM430_effort}" velocity="${XM430_velocity}" lower="-1.6" upper="1.6"/>
+			<parent link="${name}_2"/>
+			<child link="${name}_3"/>
+			<origin xyz="0.0 0.016 0.03725" rpy="0 0 0"/>
+		</joint> 
+		<!-- D435 -->
+		<joint name="camera_1_joint" type="fixed">
+			<parent link="${name}_3"/>
+			<child link="camera_1"/>
+			<origin xyz="0.04042 0.0175 0.03216" rpy="0 0 0 "/>
+		</joint> 
+		<!-- T265 (from joint 8 to camera IMU centre)--> 
+		<joint name="camera_2_joint" type="fixed">
+			<parent link="${name}_3"/>
+			<child link="camera_2"/>
+			<origin xyz="0.02612 0.0091 0.06216" rpy="0 0 0"/>
+		</joint> 
+
+		<!-- ========================= Links ========================= -->
+		<!-- Arm bottom link -->
+		<link name="${name}_1">
+			<visual>
+				<geometry>
+					<mesh filename="package://urax_description/meshes/Arm_link_1.STL"/>
+				</geometry>
+				<material name="LightGrey">
+			    <color rgba="${light_grey} ${light_grey} ${light_grey} ${alpha}"/>
+			  </material>
+				<origin rpy="0 0 0" xyz="-0.01825 0 0"/>
+			</visual>
+
+			<collision>
+		    <origin rpy="0 0 0" xyz="-0.01825 0 0"/>
+				<geometry>
+					<mesh filename="package://urax_description/meshes/Arm_link_1.STL"/>
+				</geometry>
+				<material name="colli"/>
+			</collision>
+
+			<inertial>
+				<origin xyz="${arm_1_com_x} ${arm_1_com_y} ${arm_1_com_z}"/>
+				<mass value="${arm_1_m}"/>
+				<inertia ixx="${arm_1_xx}" ixy="${arm_1_xy}" ixz="${arm_1_xz}" iyy="${arm_1_yy}" iyz="${arm_1_yz}" izz="${arm_1_zz}"/>
+			</inertial>
+		</link>
+		<!-- Arm middle link -->
+		<link name="${name}_2">
+			<visual>
+				<geometry>
+					<mesh filename="package://urax_description/meshes/Arm_link_2.STL"/>
+				</geometry>
+				<material name="LightGrey">
+			       <color rgba="${light_grey} ${light_grey} ${light_grey} ${alpha}"/>
+			    </material>
+				<origin rpy="0 0 0" xyz="-0.011 -0.01025 0"/>
+			</visual>
+			<collision>
+		    <origin rpy="0 0 0" xyz="-0.011 -0.01025 0"/>
+				<geometry>
+					<mesh filename="package://urax_description/meshes/Arm_link_2.STL"/>
+				</geometry>
+				<material name="colli"/>
+			</collision>
+		    <inertial>
+		    	<origin xyz="${arm_2_com_x} ${arm_2_com_y} ${arm_2_com_z}"/>
+		      	<mass value="${arm_2_m}"/>
+		      	<inertia ixx="${arm_2_xx}" ixy="${arm_2_xy}" ixz="${arm_2_xz}" iyy="${arm_2_yy}" iyz="${arm_2_yz}" izz="${arm_2_zz}"/>
+		    </inertial>
+		</link> 
+
+		<!-- Arm top link -->
+		<link name="${name}_3">
+			<visual>
+				<geometry>
+					<mesh filename="package://urax_description/meshes/Arm_link_3.STL"/>
+				</geometry>
+				<material name="LightGrey">
+					<color rgba="${light_grey} ${light_grey} ${light_grey} ${alpha}"/>
+				</material>
+				<origin rpy="0 0 0" xyz="-0.0143 -0.055 -0.01113"/>
+			</visual>
+			<collision>
+				<origin xyz="0 0 0" rpy="0 0 0"/>
+				<geometry>
+					<mesh filename="package://urax_description/meshes/Arm_link_3.STL"/>
+				</geometry>
+				<material name="colli"/>
+			</collision>
+			<inertial>
+				<origin xyz="${arm_3_com_x} ${arm_3_com_y} ${arm_3_com_z}"/>
+				<mass value="${arm_3_m}"/>
+				<inertia ixx="${arm_3_xx}" ixy="${arm_3_xy}" ixz="${arm_3_xz}" iyy="${arm_3_yy}" iyz="${arm_3_yz}" izz="${arm_3_zz}"/>
+			</inertial>
+		</link> 
+
+		<!-- Sensor links -->
+		<!-- <link name="laser"/>   -->
+		<link name="camera_1"/>
+		<link name="camera_2"/>
+
+		<!-- ========================= Extensions ========================= -->
+		<xacro:arm_gazebo name="${name}"/>
+		<xacro:arm_transmission name="${name}"/>  
+
+	</xacro:macro>
+
+</robot>

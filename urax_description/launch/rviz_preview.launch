@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<launch>
+
+  <arg name="frame" 		default="base_link"/>
+  <arg name="gui" 			default="true"/> <!-- True: manual control   False: real sensor -->
+  <arg name="rviz_conf" default="$(find urax_description)/rviz/mirrax.rviz"/>
+
+  <!-- Load the URDF into the ROS Parameter Server -->
+  <param name="robot_description"
+   	 	command="$(find xacro)/xacro '$(find urax_description)/robots/urax_float.xacro'"/>
+  <param name="publish_frequency" value="400" />
+  
+	<!-- publish the joint and robot states -->
+  <group if="$(arg gui)">
+    <node name="joint_state_publisher" pkg="joint_state_publisher_gui"
+			type="joint_state_publisher_gui" respawn="true" >
+      <param name="rate" value="400"/>
+    </node>
+  </group>
+
+  <!-- Robot joint states publisher -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher"
+		type="robot_state_publisher" respawn="true">
+    <param name="publish_frequency" value="400" />
+    <param name="rate" value="400" />
+    <remap from="/joint_states" to="/joint_states"/>
+  </node>
+
+  <!-- load displays -->
+  <node name="rviz" pkg="rviz" type="rviz" output="screen" required="true" args="-d $(arg rviz_conf) -f $(arg frame)" />
+</launch>

@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<launch>
+  
+  <arg name="robot"         default="mirrax"/>
+  <arg name="world"         default="empty" />
+  <arg name="pub_freq"      default="200"   />
+  <arg name="use_sim_time"  default="true"  />
+  <arg name="gui"           default="true"  />
+  <arg name="headless"      default="false" />
+  <arg name="use_gt_tf"     default="true"  />  <!-- use ground truth TF -->
+
+  <!--Set world to be launched -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="debug" value="0" />
+    <arg name="gui" value="$(arg gui)" />
+    <arg name="use_sim_time" value="$(arg use_sim_time)" />
+    <arg name="headless" value="$(arg headless)" />
+    <arg name="world_name" value="$(find mirrax_gazebo)/worlds/$(arg world).world"/>
+    <arg name="paused" value="false"/>
+  </include>
+
+  <!-- Spawn the robot -->
+  <include file="$(find mirrax_gazebo)/launch/$(arg robot).launch" />
+
+  <!-- Robot state publisher for TF -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher"
+    type="robot_state_publisher" respawn="true">
+    <param name="publish_frequency" value="$(arg pub_freq)" />
+    <param name="rate" value="$(arg pub_freq)" />
+    <remap from="/joint_states" to="/mirrax/joint_states"/>
+  </node>
+
+  <!-- unpause physics engine after a short delay -->
+  <node name="unpause" pkg="mirrax_gazebo" type="unpause_physics_engine" args="5.0"/>
+
+  <!-- TF for robot position -->
+  <group if="$(arg use_gt_tf)"> 
+    <node pkg="mirrax_gazebo" type="gazebo_p3d_tf.py" name="gz_p3d" output="screen" />
+  </group>
+
+</launch>

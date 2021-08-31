@@ -1,0 +1,19 @@
+<package format="2">
+  <name>mirrax_control</name>
+  <version>0.0.1</version>
+  <description>
+    Control package for MIRRAX - remaps PS joystick input to base 
+    velocity and joint position for MIRRAX. 
+  </description>
+
+  <maintainer email="wei.cheah@outlook.com">Wei Cheah</maintainer>
+  <license>BSD</license>
+  <author>Wei Cheah</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>sensor_msgs</depend>
+  <depend>std_msgs</depend>
+  <depend>geometry_msgs</depend>
+  
+</package>

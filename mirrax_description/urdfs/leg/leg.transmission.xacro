@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="mirrax">
+  <xacro:macro name="leg_transmission" params="name joint_name wheel_num_l wheel_num_r">
+    <!-- Pivot joint -->
+    <transmission name="${name}_pivot_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${joint_name}">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="${name}_leg_pivot_motor">
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
+        <mechanicalReduction>200</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <!-- Left Wheel -->
+    <transmission name="Wheel_${name}_left_pivot_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="wheel_${wheel_num_l}">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="Wheel_${name}_left_pivot_motor">
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
+        <mechanicalReduction>200</mechanicalReduction>
+      </actuator>
+    </transmission>
+		
+    <!-- Right Wheel -->
+    <transmission name="Wheel_${name}_right_pivot_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="wheel_${wheel_num_r}">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="Wheel_${name}_right_pivot_motor">
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
+        <mechanicalReduction>200</mechanicalReduction>
+      </actuator>
+    </transmission>
+  </xacro:macro>
+</robot>

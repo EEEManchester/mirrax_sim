@@ -1,0 +1,19 @@
+<package format="2">
+  <name>mirrax_description</name>
+  <version>1.0.0</version>
+  <description>
+    MIRRAX URDF
+  </description>
+
+  <maintainer email="wei.cheah@outlook.com">Wei Cheah</maintainer>
+  <license>BSD</license>
+  <author>Wei Cheah</author>
+  
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>robot_state_publisher</depend>
+  <depend>urdf</depend>
+  <depend>xacro</depend>
+  <depend>geometry_msgs</depend>
+
+</package>

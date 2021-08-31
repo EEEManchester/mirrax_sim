@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="mirrax">
+
+	<!-- The following included files set up definitions of parts of the robot body -->
+	<xacro:include filename="$(find mirrax_description)/urdfs/common.xacro"/>
+	<xacro:include filename="$(find mirrax_description)/urdfs/materials.xacro"/>
+	<!-- Base -->
+	<xacro:include filename="$(find mirrax_description)/urdfs/base/base_float.xacro"/>
+	
+	<!-- Legs -->
+	<xacro:include filename="$(find mirrax_description)/urdfs/leg/leg.xacro"/>
+
+	<!-- Arms -->
+	<xacro:include filename="$(find mirrax_description)/urdfs/arm/arm.xacro"/>
+	<xacro:include filename="$(find mirrax_description)/urdfs/arm/linear_actuator.xacro"/>
+
+	<!-- Sensors -->
+	<xacro:include filename="$(find mirrax_description)/urdfs/sensors/sensors.xacro"/>
+
+	<!-- generic simulator_gazebo plugins for starting mechanism control, ros time -->
+	<xacro:include filename="$(find mirrax_description)/robots/gazebo.xacro"/>
+
+	<!-- Utilise macros to build robot -->
+	
+	<!-- robot body -->
+	<xacro:RobotBase name="base_link">
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+	</xacro:RobotBase>
+
+	<!-- robot legs -->
+	<xacro:RobotLeg
+		name="back"
+		joint_name="joint_5"
+		parent="base_link"
+		joint_ulim="${back_pivot_joint_ulim}"
+		joint_llim="${back_pivot_joint_llim}"
+		wheel_num_l="1"
+		wheel_num_r="2">
+		<origin xyz="${-base_x/2} ${base_y/2} ${base_z_offset}" rpy="0 0 0"/>
+	</xacro:RobotLeg>
+
+	<xacro:RobotLeg
+		name="front"
+		joint_name="joint_6"
+		parent="base_link"
+		joint_ulim="${front_pivot_joint_ulim}"
+		joint_llim="${front_pivot_joint_llim}"
+		wheel_num_l="4"
+		wheel_num_r="3">
+		<origin xyz="${base_x/2} ${base_y/2} ${base_z_offset}" rpy="0 0 0"/>
+	</xacro:RobotLeg>
+
+	<!-- arm components -->
+	<xacro:RobotArm
+		name="arm"
+		parent="base_link">
+		<origin xyz="${-base_x/2} ${base_y/2} ${base_z_offset}" rpy="0 0 ${pi/2}"/>
+	</xacro:RobotArm>
+
+	<!-- Closed-kinematic chain of arm; excluded here for simplicity -->
+	<!-- <xacro:LinearActuator
+		name="linear_actuator"
+		parent="base_link">
+	</xacro:LinearActuator> -->
+
+	<!-- Sensors -->
+	<xacro:IMU
+		parent="base_link"
+		imu_name="imu"
+		imu_topic="/imu"
+		update_rate="100">
+		<origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+	</xacro:IMU> 
+
+	<xacro:LIDAR
+		parent="laser"
+		lidar_name="urg_lidar"
+		lidar_topic="lidar/data"
+		update_rate="100">
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+	</xacro:LIDAR>
+
+</robot>

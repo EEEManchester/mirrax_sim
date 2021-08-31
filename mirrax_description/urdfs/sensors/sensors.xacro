@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="mirrax">
+  <xacro:include filename="$(find mirrax_description)/urdfs/sensors/imu.xacro"/>
+  <xacro:include filename="$(find mirrax_description)/urdfs/sensors/lidar2D.xacro"/>
+  <xacro:include filename="$(find mirrax_description)/urdfs/sensors/rgb_camera.xacro"/>
+  <xacro:include filename="$(find mirrax_description)/urdfs/sensors/depth_camera.xacro"/>
+</robot>

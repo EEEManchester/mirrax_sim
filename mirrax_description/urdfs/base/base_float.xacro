@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="mirrax">
+
+	<!-- Things that are needed only for Gazebo (not the physical robot). 
+			 These include sensor and controller plugin specifications -->
+	<xacro:include filename="$(find mirrax_description)/urdfs/base/base.gazebo.xacro"/>
+
+	<!-- ================================ Base ================================ -->
+
+	<xacro:macro name="RobotBase" params="name *origin">
+		<!-- Floating base Joint -->
+		<joint name="floating_base" type="fixed">
+			<axis xyz="0 0 1"/>
+			<!-- origin remains zero as body_dummy same dimensions as body -->
+			<xacro:insert_block name="origin"/>
+			<parent link="floating_base"/>
+			<child link="${name}"/>
+		</joint>
+
+		<!-- Floating base Link  -->
+		<link name="floating_base">
+			<visual>
+				<geometry>
+					<cylinder length="0.01" radius="0.01"/>
+				</geometry>
+			</visual>
+		</link>
+
+		<!-- Base link -->
+		<link name="${name}">
+			<visual>
+				<geometry>
+					<mesh filename="package://mirrax_description/meshes/BodyRVIZ.STL"/>
+				</geometry>
+				<material name="LightGrey">
+					<color rgba="${light_grey} ${light_grey} ${light_grey} 0.7"/>
+				</material>
+			</visual>
+
+			<inertial>
+				<origin xyz="${xcom_base} ${ycom_base} ${zcom_base}"/>
+				<mass value="${m_base}"/>
+				<inertia ixx="${ixx_base}" iyy="${iyy_base}" izz="${izz_base}"
+						 ixy="${ixy_base}" ixz="${ixz_base}" iyz="${iyz_base}"/>
+			</inertial>
+
+			<collision>
+				<origin xyz="0 0 0" rpy="0 0 0"/>
+				<geometry>
+					<box size="0.54 0.1 0.1"/>
+				</geometry>
+				<material name="colli"/>
+			</collision>
+		</link>
+
+		<!-- Extensions -->
+		<xacro:base_gazebo name="base_link"/> 
+
+	</xacro:macro>
+
+</robot>

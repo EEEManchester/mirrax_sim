@@ -1,0 +1,15 @@
+<launch>
+
+  <!-- Launch file to run gazebo and spawn the robot -->
+  <!-- Run in terminal: roslaunch mirrax_gazebo mirrax_world.launch <arg name>:=<value_name> --> 
+  <!-- arg to run is optional, include or exclude as required -->
+  <!-- For robot to retain its default standing up position, launch joint control file then enable physics -->
+
+  <!-- Joystick input -->
+	<node pkg="joy" type="joy_node" name="joy_node" />
+	<param name="joy_node/deadzone" value="0.15" />
+	<param name="joy_node/autorepeat_rate" value="0.0" />
+
+  <node pkg="mirrax_control" type="controller2robot.py" name="controller2robot_node" />
+
+</launch>

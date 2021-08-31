@@ -1,0 +1,45 @@
+<launch>
+
+  <!-- Launch file to run gazebo and spawn the robot -->
+  <!-- Run in terminal: roslaunch mirrax_gazebo mirrax_world.launch <arg name>:=<value_name> --> 
+  <!-- arg to run is optional, include or exclude as required -->
+  <!-- For robot to retain its default standing up position, launch joint control file then enable physics -->
+
+  <!-- launch file arguments -->
+  <arg name="robot"         default="mirrax"/>
+  <arg name="world"         default="machine" />
+  <arg name="paused"        default="false"/>     <!-- pause the physics engine -->
+  <arg name="use_sim_time"  default="true"/>      <!-- use simulation time -->
+  <arg name="debug"         default="false"/>     <!-- debug mode -->
+  <arg name="gui"           default="true"/>      <!-- enable gazebo gui -->
+  <arg name="x"             default="0.0"/>
+  <arg name="y"             default="0.0"/>
+  <arg name="z"             default="0.17"/>
+  <arg name="tdelay"        default="5.0"/>       <!-- delay before setting robot pose -->
+  <arg name="pub_freq"      default="200"/>
+
+  <!--Set world to be launched -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find mirrax_gazebo)/worlds/$(arg world).world"/>
+    <arg name="debug" value="$(arg debug)" />
+    <arg name="gui" value="$(arg gui)" />
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+  </include>
+
+  <!-- Robot spawn -->
+  <include file="$(find mirrax_gazebo)/launch/$(arg robot).launch" />
+
+  <!-- Robot state publisher for TF -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher"
+    type="robot_state_publisher" respawn="true">
+    <param name="publish_frequency" value="$(arg pub_freq)" />
+    <param name="rate" value="$(arg pub_freq)" />
+    <remap from="/joint_states" to="/mirrax/joint_states"/>
+  </node>
+
+  <!-- Get robot to 0 position 
+  <node name="goto0" pkg="mirrax_gazebo" type="robot_default" output="screen" args="-t $(arg tdelay) -m $(arg world) -x $(arg x) -y $(arg y) -z $(arg z)" />
+  -->
+  
+</launch>

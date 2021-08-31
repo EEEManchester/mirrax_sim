@@ -1,0 +1,68 @@
+mirrax:
+  # Publish all joint states -----------------------------------
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 100
+
+  ##################### Joint Position Controllers #####################
+  # Rear leg joint
+  joint_5:
+    type: effort_controllers/JointPositionController
+    joint: joint_5
+    pid: {p: 40.001, i: 0.00000, d: 0.501}
+    state_publish_rate:  100
+
+  # Front leg joint
+  joint_6:
+    type: effort_controllers/JointPositionController
+    joint: joint_6
+    pid: {p: 40.001, i: 0.00000, d: 0.501}
+    state_publish_rate:  100
+    
+  # Arm yaw joint
+  joint_7:
+    type: effort_controllers/JointPositionController
+    joint: joint_7
+    pid: {p: 40.001, i: 0.00000, d: 0.501}
+    state_publish_rate:  100
+
+  # Arm tilt joint
+  joint_8:
+    type: effort_controllers/JointPositionController
+    joint: joint_8
+    pid: {p: 40.001, i: 0.00000, d: 0.501}
+    state_publish_rate:  100
+
+  # Arm raise/lower joint
+  joint_9:
+    type: effort_controllers/JointPositionController
+    joint: joint_9
+    pid: {p: 40.001, i: 0.00000, d: 0.501}
+    state_publish_rate:  100
+
+  ##################### Joint Velocity Controllers (NOT USED) #####################
+  # Front ------------------------------------------------------
+  wheel_4:
+    type: effort_controllers/JointVelocityController
+    joint: wheel_4
+    pid: {p: 60.001, i: 0.00000, d: 0.501}
+    state_publish_rate:  100
+
+  wheel_3:
+    type: effort_controllers/JointVelocityController
+    joint: wheel_3
+    pid: {p: 60.001, i: 0.00000, d: 0.501}
+    state_publish_rate:  100
+
+  # Back ------------------------------------------------------
+  wheel_1:
+    type: effort_controllers/JointVelocityController
+    joint: wheel_1
+    pid: {p: 60.001, i: 0.00000, d: 0.501}
+    state_publish_rate:  100
+
+  wheel_2:
+    type: effort_controllers/JointVelocityController
+    joint: wheel_2
+    pid: {p: 60.001, i: 0.00000, d: 0.501}
+    state_publish_rate:  100

@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="mirrax">
+  <!-- Things that are needed only for Gazebo (not the physical robot). These include sensor and controller plugin specifications -->
+  <xacro:include filename="$(find urax_description)/urdfs/leg/leg.transmission.xacro"/>
+  <xacro:include filename="$(find urax_description)/urdfs/leg/leg.gazebo.xacro"/>
+  <!-- ================================== Leg ================================== -->
+  <!-- The xacro macro contains: pivot and leg link -->
+  <xacro:macro name="RobotLeg" params="name joint_name parent joint_ulim joint_llim wheel_num_l wheel_num_r *origin">
+    <!-- Joints -->
+    <!-- Pivot joint -->
+    <joint name="${joint_name}" type="revolute">
+      <xacro:insert_block name="origin"/>
+      <parent link="${parent}"/>
+      <child  link="${name}_leg"/>
+      <axis xyz="0 0 1"/>
+      <dynamics damping="${XM430_damping}" friction="0" />
+      <limit effort="${XM430_effort}" velocity="${XM430_velocity}" lower="${joint_llim}" upper="${joint_ulim}"/>
+    </joint>
+
+    <!-- Wheel joint left -->
+    <joint name="wheel_${wheel_num_l}" type="continuous">
+      <origin xyz="${wheel_left_offset_x} ${wheel_left_offset_y} ${wheel_left_offset_z}" rpy="0 0 0"/>
+      <parent link="${name}_leg"/>
+      <child  link="wheel_${wheel_num_l}"/>
+      <axis xyz="0 1 0 "/>
+      <dynamics damping="${XM430_damping}" friction="0" />
+      <limit effort="${XM430_effort}" velocity="${XM430_velocity}"/>
+    </joint>
+
+    <!-- Wheel joint right -->
+    <joint name="wheel_${wheel_num_r}" type="continuous">
+      <origin xyz="${wheel_right_offset_x} ${wheel_right_offset_y} ${wheel_right_offset_z}" rpy="0 0 0"/>
+      <parent link="${name}_leg"/>
+      <child  link="wheel_${wheel_num_r}"/>
+      <axis xyz="0 1 0 "/>
+      <dynamics damping="${XM430_damping}" friction="0" />
+      <limit effort="${XM430_effort}" velocity="${XM430_velocity}"/>
+    </joint>
+
+    <!-- Links -->
+    <!-- Pivot link -->
+    <link name="${name}_leg">
+      <visual>
+        <geometry>
+          <mesh filename="package://urax_description/meshes/LegRVIZ.STL" scale="0.6 0.52 0.6"/>
+        </geometry>
+        <material name="LightGrey">
+          <color rgba="${light_grey} ${light_grey} ${light_grey} 0.7"/>
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0.14 0" rpy="${pi/2} 0 0 "/>
+        <geometry>
+          <cylinder length="0.08" radius="0.025"/>
+        </geometry>
+        <material name="colli"/>
+      </collision>
+      <inertial>
+        <origin xyz="${pivot_com_x} ${pivot_com_y} ${pivot_com_z}" rpy="0 0 ${pi/2}" />
+        <mass value="${pivot_m}"/>
+        <inertia ixx="${pivot_i_xx}" ixy="${pivot_i_xy}" ixz="${pivot_i_xz}" iyy="${pivot_i_yy}" iyz="${pivot_i_yz}" izz="${pivot_i_zz}"/>
+      </inertial>
+    </link>
+
+    <!-- Wheel link -->
+    <xacro:WheelLink name="${wheel_num_l}">  </xacro:WheelLink>
+    <xacro:WheelLink name="${wheel_num_r}"> </xacro:WheelLink>
+
+    <!-- Extensions -->
+    <xacro:leg_transmission name="${name}" joint_name="${joint_name}" wheel_num_l="${wheel_num_l}" wheel_num_r="${wheel_num_r}"/>
+    <xacro:leg_gazebo name="${name}" joint_name="${joint_name}" wheel_num_l="${wheel_num_l}" wheel_num_r="${wheel_num_r}"/>
+  </xacro:macro>
+
+  <!-- The xacro macro contains: wheel link -->
+  <xacro:macro name="WheelLink" params="name">
+    <link name="wheel_${name}">
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+          <mesh filename="package://urax_description/meshes/WheelRVIZ.STL" scale="0.81 0.65 0.81"/>
+        </geometry>
+        <material name="DarkGrey">
+          <color rgba="0.4 0.4 0.4 1"/>
+        </material>
+      </visual>
+      <collision>
+        <origin rpy="${pi/2} 0 0" xyz="0 0 -0.0"/>
+        <geometry>
+          <cylinder radius="0.05" length="0.05"/>
+        </geometry>
+        <material name="colli"/>
+      </collision>
+      <inertial>
+        <origin xyz="${wheel_com_x} ${wheel_com_y} ${wheel_com_z}"/>
+        <mass value="${wheel_m}"/>
+        <inertia ixx="${wheel_i_xx}" ixy="${wheel_i_xy}" ixz="${wheel_i_xz}" iyy="${wheel_i_yy}" iyz="${wheel_i_yz}" izz="${wheel_i_zz}"/>
+      </inertial>
+    </link>
+  </xacro:macro>
+	
+</robot>

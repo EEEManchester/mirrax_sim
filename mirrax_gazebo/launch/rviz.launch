@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<launch>
+
+	<arg name="frame" 		default="world"/>
+	<arg name="gui" 			default="false"/> 				<!-- True: manual control   False: real/simulated -->
+	<arg name="rviz_conf" default="$(find mirrax_gazebo)/rviz/mirrax.rviz"/>
+
+	<!-- Publish the joint and robot states for manual UI -->
+	<group if="$(arg gui)">
+		<node name="joint_state_publisher" pkg="joint_state_publisher_gui"
+			type="joint_state_publisher_gui" respawn="true" >
+			<param name="rate" value="400"/>
+		</node>
+	</group>
+
+	<!-- load displays -->
+	<node name="rviz" pkg="rviz" type="rviz" output="screen" required="true" args="-d $(arg rviz_conf) -f $(arg frame)" />
+ 
+</launch>

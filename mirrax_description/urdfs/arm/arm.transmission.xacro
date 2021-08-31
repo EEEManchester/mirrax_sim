@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="mirrax">
+  <xacro:macro name="arm_transmission" params="name">
+    <!-- Joint 1 -->
+    <transmission name="joint_9_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="joint_9">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="joint_9_motor">
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
+        <mechanicalReduction>200</mechanicalReduction>
+      </actuator>
+    </transmission>
+		
+    <!-- Joint 2 -->
+    <transmission name="joint_7_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="joint_7">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="joint_7_motor">
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
+        <mechanicalReduction>200</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <!-- Joint 3 -->
+    <transmission name="joint_8_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="joint_8">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="joint_8_motor">
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
+        <mechanicalReduction>200</mechanicalReduction>
+      </actuator>
+    </transmission>
+  </xacro:macro>
+</robot>

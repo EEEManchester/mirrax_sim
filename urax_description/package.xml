@@ -1,0 +1,21 @@
+<package format="2">
+  <name>urax_description</name>
+  <version>0.0.1</version>
+  <description>
+    The developmental MIRRAX (smaller version) URDF
+  </description>
+
+  <maintainer email="wei.cheah@outlook.com">Wei Cheah</maintainer>
+  <license>BSD</license>
+  <author>Wei Cheah</author>
+  
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>robot_state_publisher</depend>
+  <depend>urdf</depend>
+  <depend>xacro</depend>
+  <depend>geometry_msgs</depend>
+  <!-- <depend>gazebo_msgs</depend> -->
+  <!-- <depend>hector_gazebo_plugins</depend> -->
+
+</package>

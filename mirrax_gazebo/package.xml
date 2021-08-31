@@ -1,0 +1,31 @@
+<package format="2">
+  <name>mirrax_gazebo</name>
+  <version>0.0.2</version>
+  <description>
+    Gazebo simulation for MIRRAX
+  </description>
+
+  <maintainer email="wei.cheah@outlook.com">Wei Cheah</maintainer>
+  <license>BSD</license>
+  <author>Harriet Peel</author>
+  <author>Wei Cheah</author>
+
+  <export>
+    <!-- gazebo_ros_paths_plugin automatically adds these to
+        GAZEBO_PLUGIN_PATH and GAZEBO_MODEL_PATH when you do this export inside
+        the package.xml file. You can than use URIs of type model://my_package/stuff. -->
+    <gazebo_ros                                                                 
+        gazebo_plugin_path="${prefix}/lib"
+        gazebo_model_path="${prefix}/.." /> 
+  </export>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>gazebo_msgs</depend>
+  <depend>gazebo_plugins</depend>
+  <depend>gazebo_ros</depend>
+  <depend>gazebo_ros_control</depend>
+  <depend>mirrax_description</depend>
+  <depend>urax_description</depend>
+  
+</package>
