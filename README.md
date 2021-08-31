@@ -1,6 +1,6 @@
 # MIRRAX Simulator
 
-`mirrax_sim` is a gazebo simulator for the MIRRAX robot. The robot has a number of simulated sensors which can be configured in the `mirrax_description` package. 
+This is a gazebo simulator for the MIRRAX robot. The robot has a number of simulated sensors which can be configured in the `mirrax_description` package. 
 
 This package provides a simple PS4 joystick controller for manual control of the robot.
 
@@ -10,7 +10,7 @@ The setup assumes that you are working in the directory `catkin_ws`. Modify this
 First, clone the repository to your `catkin_ws` workspace:
 
 ```
-git clone https://github.com/EEEManchester/MIRRAX.git ~/catkin_ws/src
+git clone https://github.com/EEEManchester/mirrax_sim.git ~/catkin_ws/src
 ```
 
 To install ros dependencies:
@@ -25,6 +25,7 @@ This package should be built with [catkin_tools](https://catkin-tools.readthedoc
 ```bash
 cd ~/catkin_ws
 catkin build
+source devel/setup.bash
 ```
 
 ## Quick Start Guide
@@ -55,7 +56,7 @@ The controller for the robot are as follows:
 | R2                    | Front leg (J6) counter-clockwise rotation |
 | Share                 | Linear actuator down                      |
 | Options               | Linear actuator up                        |
-| Square / X            | Robot U-shape (default configuration)     |
+| Square                | Robot U-shape (default configuration)     |
 
 To view the robot's motion or sensor in RViZ:
 
