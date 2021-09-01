@@ -11,9 +11,6 @@
   <author>Wei Cheah</author>
 
   <export>
-    <!-- gazebo_ros_paths_plugin automatically adds these to
-        GAZEBO_PLUGIN_PATH and GAZEBO_MODEL_PATH when you do this export inside
-        the package.xml file. You can than use URIs of type model://my_package/stuff. -->
     <gazebo_ros                                                                 
         gazebo_plugin_path="${prefix}/lib"
         gazebo_model_path="${prefix}/.." /> 
@@ -25,6 +22,7 @@
   <depend>gazebo_plugins</depend>
   <depend>gazebo_ros</depend>
   <depend>gazebo_ros_control</depend>
+  <depend>effort_controllers</depend>
   <depend>mirrax_description</depend>
   <depend>urax_description</depend>
   

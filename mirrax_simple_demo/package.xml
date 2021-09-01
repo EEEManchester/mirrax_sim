@@ -1,9 +1,9 @@
 <package format="2">
-  <name>mirrax_control</name>
+  <name>mirrax_simple_demo</name>
   <version>0.0.1</version>
   <description>
-    Control package for MIRRAX - remaps PS joystick input to base 
-    velocity and joint position for MIRRAX. 
+    Demo package for MIRRAX - remaps PS joystick input to base 
+    velocity and joint position for MIRRAX to move the robot. 
   </description>
 
   <maintainer email="wei.cheah@outlook.com">Wei Cheah</maintainer>
@@ -15,5 +15,6 @@
   <depend>sensor_msgs</depend>
   <depend>std_msgs</depend>
   <depend>geometry_msgs</depend>
+  <depend>joy</depend>
   
 </package>

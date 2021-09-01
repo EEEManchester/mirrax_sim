@@ -10,6 +10,6 @@
 	<param name="joy_node/deadzone" value="0.15" />
 	<param name="joy_node/autorepeat_rate" value="0.0" />
 
-  <node pkg="mirrax_control" type="controller2robot.py" name="controller2robot_node" />
+  <node pkg="mirrax_simple_demo" type="controller2robot.py" name="controller2robot_node" />
 
 </launch>

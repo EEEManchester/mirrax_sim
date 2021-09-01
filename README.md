@@ -40,7 +40,7 @@ roslaunch mirrax_gazebo empty_world.launch robot:=urax
 To control the robot using joystick, run the following in a new terminal:
 
 ```bash
-roslaunch mirrax_control joystick.launch
+roslaunch mirrax_simple_demo joystick.launch
 ```
 
 The controller for the robot are as follows:

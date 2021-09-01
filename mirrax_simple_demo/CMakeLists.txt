@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(mirrax_control)
+project(mirrax_simple_demo)
 
 find_package(catkin REQUIRED COMPONENTS
   rospy
