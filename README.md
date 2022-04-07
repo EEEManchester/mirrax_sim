@@ -37,26 +37,15 @@ roslaunch mirrax_gazebo empty_world.launch
 roslaunch mirrax_gazebo empty_world.launch robot:=urax
 ```
 
-To control the robot using joystick, run the following in a new terminal:
+To control the robot using a PS4 joystick, run the following in a new terminal:
 
 ```bash
 roslaunch mirrax_simple_demo joystick.launch
 ```
 
-The controller for the robot are as follows:
-| Input                 | Function                                  |
-|-----------------------|-------------------------------------------|
-| Left joystick         | Robot linear motion                       |
-| Right joystick        | Robot yaw                                 |
-| Left/Right arrow      | Arm yaw                                   |
-| Up/Down arrow         | Arm pan                                   |
-| L1                    | Back leg (J5) clockwise rotation          |
-| L2                    | Back leg (J5) counter-clockwise rotation  |
-| R1                    | Front leg (J6) clockwise rotation         |
-| R2                    | Front leg (J6) counter-clockwise rotation |
-| Share                 | Linear actuator down                      |
-| Options               | Linear actuator up                        |
-| Square                | Robot U-shape (default configuration)     |
+The controller functions are shown below:
+
+![plot](./mirrax_simple_demo/images/joystick_map.png)
 
 To view the robot's motion or sensor in RViZ:
 

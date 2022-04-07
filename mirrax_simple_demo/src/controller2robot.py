@@ -18,7 +18,7 @@ class ControllerRemap:
 
 		## Joint position increments per control rate
 		self.LEG_INC = 0.01
-		self.ARM_INC = 0.02
+		self.ARM_INC = 0.1
 		self.joint_inc = [self.LEG_INC,self.LEG_INC,self.ARM_INC,self.ARM_INC,self.ARM_INC]
 
 		## Scaling factor for base twist cmd
@@ -27,9 +27,24 @@ class ControllerRemap:
 
 		self.setpoint_pos = [0.0]*5		# Setpoint for joints
 
-		## Joint limits
-		self.joint_min = [-0.02, -np.pi, -np.pi/2, -np.pi/2, 0.0]
-		self.joint_max = [np.pi, 0.02, np.pi, np.pi, np.pi]
+		## Joint limits [rear_leg, front_leg, arm_pan, arm_tilt]
+		robot_name = "mirrax"
+		if (rospy.has_param("robot_name")):
+			robot_name = rospy.get_param("robot_name")
+		
+		# MIRRAX joint limits
+		if (robot_name == "mirrax"):
+			rospy.loginfo("MIRRAX selected")
+			self.joint_min = [-0.02, -np.pi, -np.pi, -np.pi, 0.0]
+			self.joint_max = [np.pi,   0.02,  np.pi,    0.0, np.pi/2]
+		# mini-Me joint limits
+		elif (robot_name == "urax"):
+			rospy.loginfo("URAX selected")
+			self.joint_min = [-0.02, -np.pi, -np.pi/2, -np.pi/2, 0.0]
+			self.joint_max = [np.pi,   0.02,  np.pi/2,  np.pi/2, 0.0]
+		else:
+			rospy.logerr("Invalid robot_name used!")
+		
 
 		self.__initialise__()
 
@@ -85,9 +100,15 @@ class ControllerRemap:
 
 		## Remap joy for joint positions
 		if (self.joy_input_.buttons[3] == 1):
-			## Move to default position if activated
-			print 'Default position'
-			self.setpoint_pos = [0.0]*5
+			## Move leg joints to default position if activated
+			print 'Leg Default position'
+			self.setpoint_pos[0] = 0.
+			self.setpoint_pos[1] = 0.
+		elif (self.joy_input_.buttons[1] == 1):
+			## Move pan-tilt joints to default position if activated
+			print 'Pan-Tilt Default position'
+			self.setpoint_pos[2] = 0.
+			self.setpoint_pos[3] = 0.
 		else:
 			## Cast button from int into float
 			self.joy_input_.buttons = map(float,self.joy_input_.buttons)
@@ -105,7 +126,7 @@ class ControllerRemap:
 															self.joint_inc,
 															self.joint_min,
 															self.joint_max)
-
+		
 		## Publish topics
 		self.twist_pub_.publish(twist_cmd)
 		for i in range(0,5):

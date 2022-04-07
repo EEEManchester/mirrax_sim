@@ -1,6 +1,6 @@
 <package format="2">
   <name>mirrax_simple_demo</name>
-  <version>0.0.1</version>
+  <version>1.0.0</version>
   <description>
     Demo package for MIRRAX - remaps PS joystick input to base 
     velocity and joint position for MIRRAX to move the robot. 
